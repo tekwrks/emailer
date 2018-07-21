@@ -13,21 +13,33 @@ else
   logger.info('parsed dotenv succesfully');
 
 // app requires
-const api_key = process.env.MAILGUN_API_KEY;
-const domain = 'mail.tekwrks.com';
-const from_who = 'Martin from QuackUp <martin@tekwrks.com>';
+const MailComposer = require('nodemailer/lib/mail-composer');
+const mailgun = require('mailgun-js')({
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN
+});
 
-const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-
-var data = {
-  from: from_who,
-  to: 'toman.martin@live.com',
-  subject: 'Hello',
-  text: 'Testing some Mailgun awesomeness!'
+const from = 'Martin from QuackUp <martin@tekwrks.com>';
+const mailOptions = {
+  from: from,
+  to: '',
+  subject: 'Welcome aboard!',
+  text: 'Test email text',
+  html: '<b> Test email text </b>'
 };
+const mail = new MailComposer(mailOptions);
 
-mailgun.messages().send(data, function (error, body) {
-  logger.info(body);
-  if (error)
-    logger.error(error);
+mail.compile().build((err, message) => {
+  let dataToSend = {
+    to: 'toman.martin@live.com',
+    message: message.toString('ascii')
+  };
+
+  mailgun.messages().sendMime(
+    dataToSend,
+    (sendError, body) => {
+      logger.info(body);
+      if (sendError)
+        logger.error(sendError);
+    });
 });
