@@ -1,0 +1,14 @@
+{
+  "name": "notatweet-email",
+  "version": "1.0.0",
+  "description": "mailgun email client",
+  "main": "index.js",
+  "author": "WhoMeNope <whomenope@outlook.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "mailgun-js": "^0.20.0",
+    "winston": "^3.0.0"
+  }
+}
