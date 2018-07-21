@@ -12,16 +12,15 @@ if (r.error) {
 else
   logger.info('parsed dotenv succesfully');
 
-// app requires
+// requires
 const MailComposer = require('nodemailer/lib/mail-composer');
 const mailgun = require('mailgun-js')({
   apiKey: process.env.MAILGUN_API_KEY,
   domain: process.env.MAILGUN_DOMAIN
 });
 
-const from = 'Martin from QuackUp <martin@tekwrks.com>';
 const mailOptions = {
-  from: from,
+  from: 'Martin from QuackUp <martin@tekwrks.com>',
   to: '',
   subject: 'Welcome aboard!',
   text: 'Test email text',
@@ -30,6 +29,12 @@ const mailOptions = {
 const mail = new MailComposer(mailOptions);
 
 mail.compile().build((err, message) => {
+  if (err) {
+    logger.error(err);
+    process.exit(0);
+  }
+  logger.info('message compiled');
+
   let dataToSend = {
     to: 'toman.martin@live.com',
     message: message.toString('ascii')
