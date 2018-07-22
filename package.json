@@ -6,6 +6,9 @@
   "author": "WhoMeNope <whomenope@outlook.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "dotenv": "^6.0.0",
     "express": "^4.16.3",

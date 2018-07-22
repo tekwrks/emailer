@@ -1,0 +1,10 @@
+.env
+node_modules
+
+*.log
+*.vim
+*.un~
+
+.git
+.gitignore
+.dockerignore
