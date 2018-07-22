@@ -13,9 +13,19 @@ else
   logger.info('parsed dotenv succesfully');
 
 // requires
+const express = require('express');
+const app = express();
+
 require('./email.js')
   .then((sender) => {
-    sender('toman.martin@live.com');
+    app.get('/:email/:name', function (req, res) {
+      if(req.params.email) {
+        sender(req.params.email, req.params.name);
+      }
+      res.send('okay');
+    });
+
+    app.listen(process.env.PORT, () => logger.info(`listening on ${process.env.PORT}`));
   })
   .catch((err) => {
     logger.error(err);

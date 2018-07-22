@@ -23,12 +23,12 @@ module.exports = new Promise(function (resolve, reject) {
     const msg = message.toString('ascii');
     logger.info('message compiled');
 
-    const newJoined = function (email) {
+    const newJoined = function (email, name) {
+      //send the onboarding email
       let dataToSend = {
         to: email,
         message: msg
       };
-
       mailgun.messages().sendMime(
         dataToSend,
         (sendError, body) => {
@@ -36,6 +36,26 @@ module.exports = new Promise(function (resolve, reject) {
           if (sendError)
             logger.error(sendError);
         });
+
+      // add to mailing list
+      let members = [
+        {
+          address: email,
+          name: name || ''
+        }
+      ];
+      mailgun
+        .lists(`users@${process.env.MAILGUN_DOMAIN}`)
+        .members().add(
+          {
+            members: members,
+            subscribed: true
+          },
+          function (err, body) {
+            if (err)
+              logger.error(err);
+            logger.info(body);
+          });
     };
 
     resolve(newJoined);
