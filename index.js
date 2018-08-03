@@ -21,8 +21,13 @@ require('./email.js')
     app.get('/:email/:name', function (req, res) {
       if(req.params.email) {
         sender(req.params.email, req.params.name);
+        res.status(200);
+        res.send('okay');
       }
-      res.send('okay');
+      else {
+        logger.info('got no email address - ignoring request');
+        res.status(400).send();
+      }
     });
 
     app.listen(process.env.PORT, () => logger.info(`listening on ${process.env.PORT}`));
