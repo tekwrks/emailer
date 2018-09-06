@@ -16,8 +16,7 @@ const logger = createLogger({
   ]
 });
 
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+// If we're not in production then log to files also
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     // - Write all logs error (and below) to `error.log`.
