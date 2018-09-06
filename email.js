@@ -70,7 +70,7 @@ module.exports = new Promise(function (resolve, reject) {
           else
             logger.debug(`unsubscribed : ${email}`);
         });
-    }
+    };
 
     const sub = function (email) {
       mailgun
@@ -82,7 +82,7 @@ module.exports = new Promise(function (resolve, reject) {
           else
             logger.debug(`subscribed : ${email}`);
         });
-    }
+    };
 
     resolve({
       onboard: newJoined,
