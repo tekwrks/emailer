@@ -13,16 +13,28 @@ else
   logger.info('parsed dotenv succesfully');
 
 // requires
-const express = require('express');
-const app = express();
+const app = require('express')();
 
 require('./email.js')
-  .then((sender) => {
-    app.get('/:email/:name', function (req, res) {
+  .then(sender => {
+
+    //send onboarding email
+    app.get('/onboard/:email/:name', function (req, res) {
       if(req.params.email) {
-        sender(req.params.email, req.params.name);
-        res.status(200);
-        res.send('okay');
+        sender.onboard(req.params.email, req.params.name);
+        res.status(200).send('okay');
+      }
+      else {
+        logger.info('got no email address - ignoring request');
+        res.status(400).send();
+      }
+    });
+
+    //unsubscribe
+    app.get('/unsubscribe/:email', function (req, res) {
+      if(req.params.email) {
+        sender.unsubscribe(req.params.email);
+        res.status(200).send('okay');
       }
       else {
         logger.info('got no email address - ignoring request');
@@ -32,7 +44,7 @@ require('./email.js')
 
     app.listen(process.env.PORT, () => logger.info(`listening on ${process.env.PORT}`));
   })
-  .catch((err) => {
+  .catch(err => {
     logger.error(err);
     process.exit(0);
   });

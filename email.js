@@ -1,10 +1,12 @@
 const logger = require('./logger.js');
 
 const MailComposer = require('nodemailer/lib/mail-composer');
-const mailgun = require('mailgun-js')({
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: process.env.MAILGUN_DOMAIN
-});
+const mailgun = require('mailgun-js')(
+  {
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN
+  }
+);
 
 const mailOptions = {
   from: 'Martin from QuackUp <martin@tekwrks.com>',
@@ -58,6 +60,34 @@ module.exports = new Promise(function (resolve, reject) {
           });
     };
 
-    resolve(newJoined);
+    const unsub = function (email) {
+      mailgun
+        .lists(`users@${process.env.MAILGUN_DOMAIN}`)
+        .members(email)
+        .update({subscribed: false}, function (err, body) {
+          if(err)
+            logger.error(`could not unsubscribe : ${email} : ${err} : ${body}`);
+          else
+            logger.debug(`unsubscribed : ${email}`);
+        });
+    }
+
+    const sub = function (email) {
+      mailgun
+        .lists(`users@${process.env.MAILGUN_DOMAIN}`)
+        .members(email)
+        .update({subscribed: true}, function (err, body) {
+          if(err)
+            logger.error(`could not subscribe : ${email} : ${err} : ${body}`);
+          else
+            logger.debug(`subscribed : ${email}`);
+        });
+    }
+
+    resolve({
+      onboard: newJoined,
+      unsubscribe: unsub,
+      subscribe: sub,
+    });
   });
 });
