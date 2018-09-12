@@ -14,6 +14,9 @@ else
 
 // requires
 const app = require('express')();
+const helmet = require('helmet');
+
+app.use(helmet());
 
 require('./email.js')
   .then(sender => {
