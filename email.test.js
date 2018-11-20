@@ -1,14 +1,16 @@
-// read dotenv
-let r = require('dotenv').config();
+/* eslint-disable */
+
+process.env.MAILGUN_API_KEY = "api_key"
+process.env.MAILGUN_DOMAIN = "domain"
 
 // require emailer
-let email = null;
+let email = null
 beforeAll(() => {
-  email = require('./email.js');
-  return email;
-});
+  email = require('./email')
+  return email
+})
 
-test('compiles email message', () => {
-  console.log(email);
-  expect(email).toBeTruthy();
-});
+test('sets up email module', () => {
+  expect(email).toBeTruthy()
+})
+
