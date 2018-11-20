@@ -1,10 +1,19 @@
 module.exports = (name, service) => {
+<<<<<<< Updated upstream
   name = name || "new member"
   service = service || "login"
 
   const homepageLink = "https://www.tekwrks.com"
   const startLink = "https://www.tekwrks.com"
   const unsubscribeLink = "https://www.tekwrks.com"
+=======
+  name = name || 'new member'
+  service = service || 'login'
+
+  const homepageLink = 'https://www.tekwrks.com'
+  const startLink = 'https://www.tekwrks.com'
+  const unsubscribeLink = 'https://www.tekwrks.com'
+>>>>>>> Stashed changes
 
   const subject = 'Welcome aboard!'
   const from = 'Martin from QuackUp <martin@tekwrks.com>'
