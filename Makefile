@@ -1,3 +1,4 @@
+projectID=tekwrks
 repo=quackup
 name=email
 version=1.0.0
@@ -21,3 +22,13 @@ kill:
 	docker kill $$( \
 	docker ps -aq \
 	--filter="name=${repo}-${name}-dev" ))
+
+.PHONY: push
+push:
+	set -ex;
+	docker tag \
+		${repo}/${name}:${version} \
+		gcr.io/${projectID}/${name}:${version}
+	docker push \
+		gcr.io/${projectID}/${name}:${version}
+
