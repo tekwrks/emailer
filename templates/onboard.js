@@ -54,7 +54,7 @@ To unsibscribe, please visit ${unsubscribeLink}.
         Let's start
       </a>
 
-      <p>If this was not you, then check your ${service} account for unusual activity.</p>
+      <p>If this was not you, consider checking your ${service} account for unusual activity.</p>
 
     </div>
 

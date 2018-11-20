@@ -6,23 +6,23 @@ const mailgun = require('mailgun-js')({
   domain: process.env.MAILGUN_DOMAIN,
 })
 
-const mail = new MailComposer(require('./templates/onboard'))
+const onboardTemplate = require('./templates/onboard')
 
 module.exports = new Promise(function (resolve, reject) {
   const newJoined = function (email, name) {
-    mail.compile().build((err, message) => {
+    const mail = new MailComposer(onboardTemplate(name, 'twitter')).compile()
+
+    mail.build((err, message) => {
       if (err) {
         logger.error(`could not compile email : ${err}`)
         return
       }
-
-      const msg = message.toString('ascii')
-      logger.info('message compiled')
+      logger.debug('message compiled')
 
       // send the onboarding email
       let dataToSend = {
         to: email,
-        message: msg,
+        message: message.toString('ascii'),
       }
       mailgun.messages().sendMime(
         dataToSend,
@@ -55,32 +55,30 @@ module.exports = new Promise(function (resolve, reject) {
         })
   }
 
-  const unsub = function (email) {
+  const updateSub = function (email, sub) {
     mailgun
       .lists(`users@${process.env.MAILGUN_DOMAIN}`)
       .members(email)
-      .update({ subscribed: false }, function (err, body) {
-        if (err) {
-          logger.error(`could not unsubscribe : ${email} : ${err} : ${body}`)
-        }
-        else {
-          logger.debug(`unsubscribed : ${email}`)
-        }
-      })
+      .update(
+        { subscribed: sub },
+        function (err, body) {
+          if (err) {
+            logger.error(
+              `could not ${sub ? '' : 'un'}subscribe : ${email} : ${err} : ${body}`
+            )
+          }
+          else {
+            logger.debug(`${sub ? '' : 'un'}subscribed : ${email}`)
+          }
+        })
+  }
+
+  const unsub = function (email) {
+    updateSub(email, false)
   }
 
   const sub = function (email) {
-    mailgun
-      .lists(`users@${process.env.MAILGUN_DOMAIN}`)
-      .members(email)
-      .update({ subscribed: true }, function (err, body) {
-        if (err) {
-          logger.error(`could not subscribe : ${email} : ${err} : ${body}`)
-        }
-        else {
-          logger.debug(`subscribed : ${email}`)
-        }
-      })
+    updateSub(email, true)
   }
 
   resolve({
