@@ -7,7 +7,7 @@ const helmet = require('helmet')
 
 app.use(helmet())
 
-require('./email.js')
+require('./email')
   .then(sender => {
     // send onboarding email
     app.get('/onboard/:email/:name', function (req, res) {
