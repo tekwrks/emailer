@@ -1,12 +1,12 @@
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, printf } = format
 
-const logFormat = printf(info => {
-  return `${process.env.PROGRAM_ALIAS || ''}:${info.timestamp}:${info.level}: ${info.message}`
-})
+const logFormat = printf(info =>
+  `${process.env.PROGRAM_ALIAS || ''}:${info.timestamp}:${info.level}: ${info.message}`
+)
 
 const logger = createLogger({
-  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  level: process.env.LOG_LEVEL === 'debug' ? 'debug' : 'info',
   format: combine(
     timestamp(),
     logFormat
@@ -16,8 +16,7 @@ const logger = createLogger({
   ],
 })
 
-// If we're not in production then log to files also
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.LOG_FILE === 'true') {
   logger.add(
     // - Write all logs error (and below) to `error.log`.
     new transports.File({ filename: 'error.log', level: 'error' })
@@ -28,5 +27,6 @@ if (process.env.NODE_ENV !== 'production') {
   )
 }
 
+logger.info('starting up')
 module.exports = logger
 
