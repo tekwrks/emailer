@@ -7,6 +7,8 @@ const mailgun = require('mailgun-js')({
   domain: process.env.MAILGUN_DOMAIN,
 })
 
+const list = require('./list')('users')
+
 module.exports = new Promise(function (resolve, reject) {
   templateLoader('/templates/onboard')
     .then((onboardTemplate) => {
@@ -20,6 +22,7 @@ module.exports = new Promise(function (resolve, reject) {
           startLink: 'https://www.tekwrks.com',
           unsubscribeLink: 'https://www.tekwrks.com',
         }
+
         const rendered = onboardTemplate(view)
         const mail = new MailComposer({
           from: from,
@@ -56,52 +59,11 @@ module.exports = new Promise(function (resolve, reject) {
           address: email,
           name: name || '',
         }]
-        mailgun
-          .lists(`users@${process.env.MAILGUN_DOMAIN}`)
-          .members()
-          .add(
-            {
-              members: members,
-              subscribed: true,
-            },
-            function (err, body) {
-              if (err) {
-                logger.error(err)
-              }
-              logger.info(body)
-            })
-      }
-
-      const updateSub = function (email, sub) {
-        mailgun
-          .lists(`users@${process.env.MAILGUN_DOMAIN}`)
-          .members(email)
-          .update(
-            { subscribed: sub },
-            function (err, body) {
-              if (err) {
-                logger.error(
-                  `could not ${sub ? '' : 'un'}subscribe : ${email} : ${err} : ${body}`
-                )
-              }
-              else {
-                logger.debug(`${sub ? '' : 'un'}subscribed : ${email}`)
-              }
-            })
-      }
-
-      const unsub = function (email) {
-        updateSub(email, false)
-      }
-
-      const sub = function (email) {
-        updateSub(email, true)
+        list.add(members, true)
       }
 
       resolve({
         onboard: newJoined,
-        unsubscribe: unsub,
-        subscribe: sub,
       })
     })
     .catch(e => reject(e))
