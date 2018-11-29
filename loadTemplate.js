@@ -10,7 +10,6 @@ const loadFile = (fp) =>
         reject(err)
       }
       logger.debug(`file : ${fp} : loaded`)
-
       resolve(data)
     })
   })

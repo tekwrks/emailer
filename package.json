@@ -11,6 +11,13 @@
     "test": "jest",
     "lint": "eslint -c .eslintrc.js ./*.js"
   },
+  "jest": {
+    "modulePaths" : ["./"],
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom" : ["*.js"],
+    "collectCoverage": false,
+    "testRegex": ".*test.js$"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "helmet": "^3.13.0",
