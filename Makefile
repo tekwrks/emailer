@@ -1,5 +1,5 @@
-project=tekwrks
-name=email
+project=multipl
+name=mailgun
 
 .PHONY:build
 build:
