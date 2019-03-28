@@ -30,7 +30,7 @@ before_deploy:
   - source /home/travis/google-cloud-sdk/path.bash.inc
   - gcloud --quiet version
   - gcloud --quiet components update
-  - git clone https://github.com/multipl/MANAGE
+  - git clone https://github.com/multiplio/MANAGE
   - ./MANAGE/gcloud/auth.sh
 
 deploy:
