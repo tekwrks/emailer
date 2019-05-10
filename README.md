@@ -8,6 +8,8 @@ Mailgun email service with Mustache templates
 
 - GET ```/unsubscribe/:email``` <br>
 unsubscibe :email + remove from mailgun lists
+<br>
+redirects to ```/unsubscribed```
 
 - GET ```/onboard/:email/:name``` <br>
 send onboarding email to :email + subscribe + add to mailgun lists

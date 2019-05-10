@@ -10,12 +10,11 @@ const subscription = require('./subscription')
 app.get('/unsubscribe/:email', function (req, res) {
   if (req.params.email) {
     subscription.unsubscribe(req.params.email)
-    res.status(200).send('okay')
   }
   else {
     logger.info('got no email address - ignoring request')
-    res.status(400).send('no email address')
   }
+  res.redirect('/unsubscribed')
 })
 
 // emails
