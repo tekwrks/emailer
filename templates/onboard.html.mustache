@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
+
   <head>
   </head>
 
-  <body style="margin: 0; font-family: 'Cabin', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';color: #6e7b8a; text-align: center;">
+  <body style="margin: 0; font-family: 'Cabin', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'; text-align: center;">
+
     <div style="margin-top: 20px;">
       <a href="{{homepageLink}}">
-        <img src="https://www.tekwrks.com/assets/logo-color.svg" style="max-width: 150px;" />
+        <img src="https://cast.multipl.io/assets/cast-fontlogo-black.svg" style="max-width: 150px;" />
       </a>
     </div>
+
     <div style="background: #fff; margin: 0 auto; max-width: 550px;">
       <p style="font-size: 1.25rem; font-weight: 200; line-height: 1.5rem;">
         Welcome {{name}} !
       </p>
 
-      <p>You have linked your {{service}} account with QuackUp!</p>
+      <p>You have linked your {{service}} account with Cast!</p>
 
       <a href="{{startLink}}"
          style="background: rgba(85, 221, 224, 1);
@@ -27,21 +30,22 @@
          text-align: center;
          cursor: pointer;
          border-radius: 5px;">
-        Let's start
+        Let's start!
       </a>
 
-      <p>If this was not you, consider checking your {{service}} account for unusual activity.</p>
-
+      <p>If this was not you, check your {{service}} account for unusual activity.</p>
     </div>
 
     <hr>
 
     <div style="font-size: 0.75rem; text-decoration: none;">
       Too much email?
-      <a href="{{unsubscribeLink}}">
+      <a href="{{{unsubscribeLink}}}">
         Unsubscribe!
       </a>
     </div>
+
   </body>
+
 </html>
 
