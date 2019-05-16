@@ -9,18 +9,19 @@ const mailgun = require('mailgun-js')({
 
 const list = require('./list')('users')
 
+const from = 'Martin from Cast <martin@cast.multipl.io>'
+
 module.exports = new Promise(function (resolve, reject) {
   templateLoader('/templates/onboard')
     .then((onboardTemplate) => {
       const newJoined = function (email, name) {
-        const from = 'Martin from QuackUp <martin@tekwrks.com>'
         const subject = 'Welcome aboard!'
         const view = {
           name: name || 'new member',
           service: 'twitter',
-          homepageLink: 'https://www.tekwrks.com',
-          startLink: 'https://www.tekwrks.com',
-          unsubscribeLink: 'https://www.tekwrks.com',
+          homepageLink: 'https://cast.multipl.io',
+          startLink: 'https://cast.multipl.io',
+          unsubscribeLink: 'https://cast.multipl.io/unsubscribe/' + email,
         }
 
         const rendered = onboardTemplate(view)
@@ -62,6 +63,7 @@ module.exports = new Promise(function (resolve, reject) {
         list.add(members, true)
       }
 
+      // return prepared functions
       resolve({
         onboard: newJoined,
       })
