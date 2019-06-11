@@ -6,7 +6,12 @@ const app = require('express')()
 app.use(require('helmet')())
 
 // unsubscribe
-const subscription = require('./subscription')
+const mailgun = require('mailgun-js')({
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN,
+})
+
+const subscription = require('./subscription')(mailgun)
 app.get('/unsubscribe/:email', function (req, res) {
   if (req.params.email) {
     subscription.unsubscribe(req.params.email)
