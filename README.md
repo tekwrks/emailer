@@ -6,12 +6,12 @@ Mailgun email service with Mustache templates
 
 ## routes
 
-| method | route | success | failure | comment |
-|:---:|:---|:---|:---|---:|
-| GET | /ready | 200 'ok' | - | kubernetes ready probe |
-| GET | /unsubscribe/:email | -> /unsubscribed | -> /unsubscribed | remove email from all lists |
-| GET | /subscribe/:email | 200 'Subscribed!' | 400 'missing email' | add email to subscribed list |
-| GET | /onboard/:email/:name | 200 'okay' | 400 'missing email' | send onboard to :email + subscribe to lists |
+| method | route | success | failure | comment | validated |
+|:---:|:---|:---|:---|---:| :---: |
+| GET | /ready | 200 'ok' | - | kubernetes ready probe | - |
+| GET | /unsubscribe/:email | -> /unsubscribed | -> /unsubscribed | remove email from all lists | yes |
+| GET | /subscribe/:email | 200 'Subscribed!' | 400 'missing email' | add email to subscribed list | yes |
+| GET | /onboard/:email/:name | 200 'okay' | 400 'missing email' | send onboard to :email + subscribe to lists | **no** |
 
 ## env
 
