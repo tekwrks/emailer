@@ -2,19 +2,48 @@
 const logger = require('./logger')
 
 // requires
+const validator = require('email-addresses')
 const app = require('express')()
 app.use(require('helmet')())
 
 // unsubscribe
-const subscription = require('./subscription')
+const mailgun = require('mailgun-js')({
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN,
+})
+const subscription = require('./subscription')(mailgun)
+
 app.get('/unsubscribe/:email', function (req, res) {
   if (req.params.email) {
-    subscription.unsubscribe(req.params.email)
+    const email = validator.parseOneAddress(req.params.email)
+    if (email === null) {
+      logger.warning(`Got invalid email address : ${req.params.email}`)
+    }
+    else {
+      subscription.unsubscribe(email.address)
+    }
+  }
+  else {
+    logger.warning('got no email address - ignoring request')
+  }
+  res.redirect('/unsubscribed')
+})
+app.get('/subscribe/:email', function (req, res) {
+  if (req.params.email) {
+    const email = validator.parseOneAddress(req.params.email)
+    if (email === null) {
+      logger.warning(`Got invalid email address : ${req.params.email}`)
+      res.status(400).send('invalid email')
+    }
+    else {
+      subscription.subscribe(email.address)
+      res.status(200).send('Subscribed!')
+    }
   }
   else {
     logger.info('got no email address - ignoring request')
+    res.status(400).send('missing email')
   }
-  res.redirect('/unsubscribed')
 })
 
 // emails
@@ -28,7 +57,7 @@ require('./email')
       }
       else {
         logger.info('got no email address - ignoring request')
-        res.status(400).send('no email address')
+        res.status(400).send('missing email')
       }
     })
 

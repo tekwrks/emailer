@@ -12,13 +12,18 @@
     "lint": "eslint -c .eslintrc.js ./*.js"
   },
   "jest": {
-    "modulePaths" : ["./"],
+    "modulePaths": [
+      "./"
+    ],
     "coverageDirectory": "coverage",
-    "collectCoverageFrom" : ["*.js"],
+    "collectCoverageFrom": [
+      "*.js"
+    ],
     "collectCoverage": false,
     "testRegex": ".*test.js$"
   },
   "dependencies": {
+    "email-addresses": "^3.0.3",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "mailgun-js": "^0.20.0",
@@ -33,6 +38,6 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "jest": "^23.6.0"
+    "jest": "^24.8.0"
   }
 }

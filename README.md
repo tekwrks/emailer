@@ -6,18 +6,17 @@ Mailgun email service with Mustache templates
 
 ## routes
 
-- GET ```/unsubscribe/:email``` <br>
-unsubscibe :email + remove from mailgun lists
-<br>
-redirects to ```/unsubscribed```
-
-- GET ```/onboard/:email/:name``` <br>
-send onboarding email to :email + subscribe + add to mailgun lists
+| method | route | success | failure | comment | validated |
+|:---:|:---|:---|:---|---:| :---: |
+| GET | /ready | 200 'ok' | - | kubernetes ready probe | - |
+| GET | /unsubscribe/:email | -> /unsubscribed | -> /unsubscribed | remove email from all lists | yes |
+| GET | /subscribe/:email | 200 'Subscribed!' | 400 'missing email' | add email to subscribed list | yes |
+| GET | /onboard/:email/:name | 200 'okay' | 400 'missing email' | send onboard to :email + subscribe to lists | **no** |
 
 ## env
 
 ```
-PROGRAM_ALIAS=email
+PROGRAM_ALIAS=mailgun
 PORT=3000
 
 LOG_FILE=false

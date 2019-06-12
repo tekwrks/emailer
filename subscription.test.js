@@ -4,6 +4,8 @@ process.env.MAILGUN_API_KEY = "api_key"
 process.env.MAILGUN_DOMAIN = "domain"
 
 describe('usage', function() {
+  jest.resetModules()
+
   jest.mock('./logger')
   const logger = require('logger')
 
@@ -16,7 +18,7 @@ describe('usage', function() {
   }
   mailgun.mockReturnValue(mockMailgun)
 
-  const m = require('./subscription')
+  const m = require('./subscription')(mockMailgun)
 
   test('subscribe changes the correct list', () => {
     m.subscribe('email')
@@ -42,6 +44,7 @@ describe('usage', function() {
 
 describe('error handling', function() {
   jest.resetModules()
+
   jest.mock('mailgun-js')
   const mailgun = require('mailgun-js')
   const mockMailgun = {
@@ -55,7 +58,7 @@ describe('error handling', function() {
   const logger = require('./logger')
   logger.error = jest.fn()
 
-  const m = require('./subscription')
+  const m = require('./subscription')(mockMailgun)
 
   test('subscribe', () => {
     logger.error.mockClear()
@@ -73,6 +76,7 @@ describe('error handling', function() {
 
 describe('success handling', () => {
   jest.resetModules()
+
   jest.mock('mailgun-js')
   const mailgun = require('mailgun-js')
   const mockMailgun = {
@@ -86,7 +90,7 @@ describe('success handling', () => {
   const logger = require('./logger')
   logger.debug = jest.fn()
 
-  const m = require('./subscription')
+  const m = require('./subscription')(mockMailgun)
 
   test('unsubscribe', () => {
     logger.debug.mockClear()
