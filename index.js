@@ -17,14 +17,14 @@ app.get('/unsubscribe/:email', function (req, res) {
   if (req.params.email) {
     const email = validator.parseOneAddress(req.params.email)
     if (email === null) {
-      logger.warning(`Got invalid email address : ${req.params.email}`)
+      logger.info(`Got invalid email address : ${req.params.email}`)
     }
     else {
       subscription.unsubscribe(email.address)
     }
   }
   else {
-    logger.warning('got no email address - ignoring request')
+    logger.info('got no email address - ignoring request')
   }
   res.redirect('/unsubscribed')
 })
@@ -32,7 +32,7 @@ app.get('/subscribe/:email', function (req, res) {
   if (req.params.email) {
     const email = validator.parseOneAddress(req.params.email)
     if (email === null) {
-      logger.warning(`Got invalid email address : ${req.params.email}`)
+      logger.info(`Got invalid email address : ${req.params.email}`)
       res.status(400).send('invalid email')
     }
     else {
