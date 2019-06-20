@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns tests/integration",
+    "test-integration": "jest --testPathPattern tests/integration",
     "lint": "eslint -c .eslintrc.js ./*.js"
   },
   "jest": {
@@ -20,7 +21,7 @@
       "*.js"
     ],
     "collectCoverage": false,
-    "testRegex": ".*test.js$"
+    "testRegex": "[a-zA-Z]*\\.test\\.js$"
   },
   "dependencies": {
     "email-addresses": "^3.0.3",
