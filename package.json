@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns tests/integration",
+    "test-integration": "jest --testPathPattern tests/integration",
     "lint": "eslint -c .eslintrc.js ./*.js"
   },
   "jest": {
@@ -20,7 +21,7 @@
       "*.js"
     ],
     "collectCoverage": false,
-    "testRegex": ".*test.js$"
+    "testRegex": "[a-zA-Z]*\\.test\\.js$"
   },
   "dependencies": {
     "email-addresses": "^3.0.3",
@@ -32,12 +33,15 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
+    "node-docker-api": "^1.1.22",
     "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "jest": "^24.8.0"
+    "jest": "^24.8.0",
+    "request": "^2.88.0",
+    "supertest": "^4.0.2"
   }
 }
