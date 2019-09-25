@@ -11,10 +11,10 @@ module.exports = function (mailgun) {
         },
         function (err, body) {
           if (err) {
-            logger.error(`could not ${sub ? '' : 'un'}subscribe : ${email} : ${err} : ${body}`)
+            logger.error(`could not ${sub ? '' : 'un'}subscribe : ${email} : ${err}`)
           }
           else {
-            logger.debug(`${sub ? '' : 'un'}subscribed : ${email} : ${body}`)
+            logger.debug(`${sub ? '' : 'un'}subscribed : ${email}`)
           }
         })
   }
