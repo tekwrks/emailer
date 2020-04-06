@@ -41,7 +41,7 @@ module.exports = new Promise(function (resolve, reject) {
           logger.debug('message compiled')
 
           // send the onboarding email
-          let dataToSend = {
+          const dataToSend = {
             to: email,
             message: message.toString('ascii'),
           }

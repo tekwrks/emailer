@@ -4,7 +4,6 @@ module.exports = {
     "es6": true,
   },
   "parserOptions": {
-    "ecmaVersion": "es6",
     "sourceType": "module",
   },
   "rules": {
