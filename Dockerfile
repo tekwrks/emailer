@@ -1,9 +1,5 @@
 FROM node:10-alpine
 
-# Install yarn
-RUN npm install --global yarn
-
-# Create app directory
 WORKDIR /usr/src/app
 
 # Install pm2
